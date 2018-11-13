@@ -33,3 +33,13 @@ div#root {
 	width: 1.5rem;
 	height: 1.5rem;
 }
+
+.todoChecked {
+	text-decoration: line-through;
+	font-style: italic;
+	opacity: 0.54;
+}
+
+.labelFinished {
+	margin-top: 2rem;
+}
