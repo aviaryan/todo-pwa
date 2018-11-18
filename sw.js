@@ -58,6 +58,18 @@ self.addEventListener('sync', function (event) {
 	}
 })
 
+// push notification
+self.addEventListener('push', function (e) {
+	let body = e.data ? e.data.text() : 'Push message no payload'
+	let options = {
+		body: body,
+		icon: 'favicon.png'
+	}
+	e.waitUntil(
+		self.registration.showNotification('Push Notification', options)
+	)
+})
+
 // deletes old caches
 self.addEventListener('activate', function (event) {
 	const cacheWhitelist = [CACHE_NAME];

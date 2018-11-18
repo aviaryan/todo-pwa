@@ -19,8 +19,9 @@ const Header = (props) => (
 		<h1 className="title">TODO</h1>
 		{props.login &&
 		<div className="icons">
-			<svg className="feather">
-				<use xlinkHref="/img/feather-sprite.svg#bell-off" />
+			<svg className="feather" aria-label="Notifications" role="button"
+				onClick={props.subscribed ? props.unsubscribe : props.subscribe}>
+				<use xlinkHref={'/img/feather-sprite.svg#bell' + (props.subscribed ? '' : '-off')} />
 			</svg>
 			<svg className="feather log-out" aria-label="Logout" role="button"
 				onClick={props.logOut}>
@@ -121,15 +122,78 @@ class Content extends React.Component {
 }
 
 class App extends React.Component {
-	state = {login: null}
+	state = {login: null, subscribed: false}
 
 	componentDidMount() {
+		let setState = this.setState.bind(this)
+		navigator.serviceWorker.ready.then((reg) => {
+			reg.pushManager.getSubscription().then(function (sub) {
+				if (sub) {
+					console.log('already subscribed')
+					setState({ subscribed: true })
+				}
+			})
+		})
 		idbKeyval.get('login').then(login => {
 			if (login) {
 				this.setState({ login })
 			}
 		})
-		
+	}
+
+	unsubscribeUser() {
+		let setState = this.setState.bind(this)
+		let login = this.state.login
+		navigator.serviceWorker.ready.then(function (reg) {
+			reg.pushManager.getSubscription().then(function (subscription) {
+				if (subscription) {
+					return subscription.unsubscribe();
+				}
+			}).catch(function (error) {
+				console.log('Error unsubscribing', error);
+			}).then(function () {
+				fetch(SERVER_URL + '/subscribes/' + login, {
+					method: 'DELETE',
+				}).then(() => {
+					console.log('unsubscribed')
+				}).catch(console.error)
+				setState({subscribed: false})
+			});
+		})
+	}
+
+	subscribeUser() {
+		let setState = this.setState.bind(this)
+		let login = this.state.login
+		if ('serviceWorker' in navigator) {
+			console.log('hey')
+			navigator.serviceWorker.ready.then(function (reg) {
+				reg.pushManager.subscribe({
+					userVisibleOnly: true,
+					applicationServerKey: urlB64ToUint8Array(
+						'BDWPiHgC0nNJk7XDu-lt-TsBhWW5Dttc7OvTmiWtiOR-r-xAPn7QnE6lucsVAEZXFoJQjNWQ1ED6POjjiyiiSHw'
+					)
+				}).then(function (sub) {
+					setState({subscribed: true})
+					// send data to server
+					fetch(SERVER_URL + '/subscribes/' + login, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json; charset=utf-8',
+						},
+						body: JSON.stringify(sub)
+					}).then(() => {
+						console.log('subscribed', sub)
+					}).catch(console.error)
+				}).catch(function (e) {
+					if (Notification.permission === 'denied') {
+						console.warn('Permission for notifications was denied');
+					} else {
+						console.error('Unable to subscribe to push', e);
+					}
+				});
+			})
+		}
 	}
 
 	login(login) {
@@ -145,7 +209,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="app">
-				<Header logOut={this.logOut.bind(this)} login={this.state.login} />
+				<Header logOut={this.logOut.bind(this)} login={this.state.login}
+					subscribe={this.subscribeUser.bind(this)} unsubscribe={this.unsubscribeUser.bind(this)}
+					subscribed={this.state.subscribed} />
 				{this.state.login ? 
 					<Content login={this.state.login} /> : 
 					<Login login={this.login.bind(this)} />}
@@ -158,3 +224,22 @@ ReactDOM.render(
 	<App />,
 	document.getElementById('root')
 );
+
+
+// HELPER FUNCTIONS
+// PAY NO ATTENTION
+
+function urlB64ToUint8Array(base64String) {
+	const padding = '='.repeat((4 - base64String.length % 4) % 4);
+	const base64 = (base64String + padding)
+		.replace(/\-/g, '+')
+		.replace(/_/g, '/');
+
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
+}
