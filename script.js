@@ -35,8 +35,58 @@ class TodoItem extends React.Component {
 	}
 }
 
+const Header = (props) => (
+	<header>
+		<h1 className="title">TODO</h1>
+		<div className="icons">
+			<svg className="feather">
+				<use xlinkHref="/img/feather-sprite.svg#bell-off" />
+			</svg>
+			<svg className="feather log-out">
+				<use xlinkHref="/img/feather-sprite.svg#log-out" />
+			</svg>
+		</div>
+	</header>
+)
+
+class Login extends React.Component {
+	render() {
+		return (
+			<div className="loginScreen">
+				<h2 className="loginLabel">Enter user name</h2>
+				<div className="loginControls">
+					<input type="text" id="username" placeholder="Avi" />
+					<svg className="feather right-arrow login-button">
+						<use xlinkHref="/img/feather-sprite.svg#arrow-right-circle" />
+					</svg>
+				</div>
+			</div>
+		)
+	}
+}
+
+const Content = (props) => (
+	<div className="content">
+		<div className="todoItems">
+			{props.todos.filter(t => !t.completed).map(todo => <TodoItem key={todo.id} todo={todo}
+				onUpdate={props.update} />)}
+		</div>
+		<h2 className="labelFinished">Finished</h2>
+		<div className="todoItems">
+			{props.todos.filter(t => t.completed).map(todo => <TodoItem key={todo.id} todo={todo}
+				onUpdate={props.update} />)}
+		</div>
+		<div className="newTodo">
+			<input type="text" id="todoText" placeholder="Enter todo..." />
+			<svg className="feather right-arrow">
+				<use xlinkHref="/img/feather-sprite.svg#arrow-right-circle" />
+			</svg>
+		</div>
+	</div>
+)
+
 class App extends React.Component {
-	state = {todos}
+	state = {todos, loggedIn: true}
 
 	update() {
 		this.setState({todos})
@@ -45,34 +95,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="app">
-				<header>
-					<h1 className="title">TODO</h1>
-					<div className="icons">
-						<svg className="feather">
-							<use xlinkHref="/img/feather-sprite.svg#bell-off" />
-						</svg>
-						<svg className="feather log-out">
-							<use xlinkHref="/img/feather-sprite.svg#log-out"/>
-						</svg>
-					</div>
-				</header>
-				<div className="content">
-					<div className="todoItems">
-						{this.state.todos.filter(t => !t.completed).map(todo => <TodoItem key={todo.id} todo={todo} 
-							onUpdate={this.update.bind(this)}/>)}
-					</div>
-					<h2 className="labelFinished">Finished</h2>
-					<div className="todoItems">
-						{this.state.todos.filter(t => t.completed).map(todo => <TodoItem key={todo.id} todo={todo}
-							onUpdate={this.update.bind(this)}/>)}
-					</div>
-					<div className="newTodo">
-						<input type="text" id="todoText" placeholder="Enter todo..." />
-						<svg className="feather right-arrow">
-							<use xlinkHref="/img/feather-sprite.svg#arrow-right-circle" />
-						</svg>
-					</div>
-				</div>
+				<Header />
+				{this.state.loggedIn ? <Content todos={this.state.todos} update={this.update.bind(this)} /> : <Login />}
 			</div>
 		);
 	}

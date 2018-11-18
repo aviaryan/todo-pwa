@@ -9,6 +9,10 @@ html, body {
 	font-size: calc(18px * 1.1);
 }
 
+h1,h2 {
+	font-weight: normal;
+}
+
 div#root {
 	height: 100%;
 }
@@ -32,7 +36,6 @@ header {
 	margin: 0;
 	color: #fff;
 	font-size: 1.33rem;
-	font-weight: normal;
 }
 
 /* ICONS */
@@ -41,7 +44,7 @@ header {
   height: 32px;
   stroke: currentColor;
   color: white;
-  stroke-width: 2;
+  stroke-width: 1.2;
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
@@ -49,6 +52,43 @@ header {
 
 .log-out {
 	margin-left: 1rem;
+}
+
+/* LOGIN */
+.loginScreen {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: calc(100vh - 3rem);
+	/* sort of hackish but works, better solution is using flex all over app layout (vertical) */
+}
+
+.loginLabel {
+	margin: 0;
+	margin-bottom: 1rem;
+	opacity: 0.87;
+	font-size: 1.33rem;
+}
+
+.loginControls {
+	display: flex;
+	justify-content: center;
+}
+
+#username {
+	font-size: 1rem;
+	border: 1px solid #000;
+	padding: 0.5rem;
+	width: 90%;
+	max-width: 240px;
+	margin-right: 0.5rem;
+}
+
+.login-button {
+	opacity: 0.74;
+	width: 40px;
+	height: 40px;
 }
 
 /* BODY */
@@ -83,7 +123,6 @@ header {
 
 .labelFinished {
 	margin-top: 2rem;
-	font-weight: normal;
 	font-size: 1.2rem;
 	padding-left: 0.5rem;
 }
@@ -110,7 +149,7 @@ header {
 	border: 0;
 }
 
-#todoText:focus {
+input:focus {
 	border: 0;
 	outline: none;
 }
