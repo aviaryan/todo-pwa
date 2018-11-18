@@ -1,10 +1,12 @@
+/* CORE STYLES */
 html, body {
 	font-family: 'Roboto', sans-serif;
 	background-color: slategray;
 	margin: 0;
 	padding: 0;
 	min-height: 100vh;
-	height: 100%;
+	height: 100vh;
+	font-size: calc(18px * 1.1);
 }
 
 div#root {
@@ -12,26 +14,65 @@ div#root {
 }
 
 .app {
-	margin: 0 auto;
-	padding: 1rem 2rem;
-	max-width: 800px;
 	background-color: white;
-	height: calc(100% - 2rem);
+	height: 100%;
+}
+
+/* HEADER */
+header {
+	background-color: #6EB150;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5rem 1rem;
 }
 
 .title {
-	text-align: center;
+	margin: 0;
+	color: #fff;
+	font-size: 1.33rem;
+	font-weight: normal;
+}
+
+/* ICONS */
+.feather {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  color: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.log-out {
+	margin-left: 1rem;
+}
+
+/* BODY */
+.content {
+	margin: 0 auto;
+	/* padding: 0; */
+	max-width: 800px;
 }
 
 .todo {
-	padding: 0.5rem 0;
-	font-size: 1.5rem;
+	padding: 0.5rem;
+	/* font-size: 1.5rem; */
+	display: flex;
+	align-items: center;
 	border-bottom: 1px solid lightgray;
 }
 
 .todoCheck {
 	width: 1.5rem;
 	height: 1.5rem;
+}
+
+.todoText {
+	margin-left: 1rem;
 }
 
 .todoChecked {
@@ -42,4 +83,34 @@ div#root {
 
 .labelFinished {
 	margin-top: 2rem;
+	font-weight: normal;
+	font-size: 1.2rem;
+	padding-left: 0.5rem;
+}
+
+/* footer new todo */
+.newTodo {
+	position: fixed;
+	bottom: 0;
+	border: 1px solid #bbb;
+    width: calc(100% - 2rem);
+	max-width: 800px;
+	display: flex;
+	padding: 0.5rem 1rem;
+}
+
+.right-arrow {
+	color: black;
+	opacity: 0.87;
+}
+
+#todoText {
+	font-size: 1rem;
+	flex-grow: 100;
+	border: 0;
+}
+
+#todoText:focus {
+	border: 0;
+	outline: none;
 }

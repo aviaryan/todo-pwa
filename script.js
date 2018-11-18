@@ -9,6 +9,11 @@ const todos = [
 		id: 2,
 		title: "Wash the dishes",
 		completed: false
+	},
+	{
+		id: 2,
+		title: "A completed task",
+		completed: true
 	}
 ]
 
@@ -40,15 +45,33 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="app">
-				<h1 className="title">TODO App</h1>
-				<div className="todoItems">
-					{this.state.todos.filter(t => !t.completed).map(todo => <TodoItem key={todo.id} todo={todo} 
-						onUpdate={this.update.bind(this)}/>)}
-				</div>
-				<h2 className="labelFinished">Finished</h2>
-				<div className="todoItems">
-					{this.state.todos.filter(t => t.completed).map(todo => <TodoItem key={todo.id} todo={todo}
-						onUpdate={this.update.bind(this)}/>)}
+				<header>
+					<h1 className="title">TODO</h1>
+					<div className="icons">
+						<svg className="feather">
+							<use xlinkHref="/img/feather-sprite.svg#bell-off" />
+						</svg>
+						<svg className="feather log-out">
+							<use xlinkHref="/img/feather-sprite.svg#log-out"/>
+						</svg>
+					</div>
+				</header>
+				<div className="content">
+					<div className="todoItems">
+						{this.state.todos.filter(t => !t.completed).map(todo => <TodoItem key={todo.id} todo={todo} 
+							onUpdate={this.update.bind(this)}/>)}
+					</div>
+					<h2 className="labelFinished">Finished</h2>
+					<div className="todoItems">
+						{this.state.todos.filter(t => t.completed).map(todo => <TodoItem key={todo.id} todo={todo}
+							onUpdate={this.update.bind(this)}/>)}
+					</div>
+					<div className="newTodo">
+						<input type="text" id="todoText" placeholder="Enter todo..." />
+						<svg className="feather right-arrow">
+							<use xlinkHref="/img/feather-sprite.svg#arrow-right-circle" />
+						</svg>
+					</div>
 				</div>
 			</div>
 		);
