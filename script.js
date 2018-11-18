@@ -203,6 +203,7 @@ class App extends React.Component {
 
 	logOut() {
 		idbKeyval.clear()
+		this.unsubscribeUser()
 		this.setState({login: null})
 	}
 
