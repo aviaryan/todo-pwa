@@ -2,7 +2,6 @@ const CACHE_NAME = 'todo-pwa-v1';
 
 const urlsToCache = [
 	'/',
-	'/index.html',
 	'/styles.css',
 	'/script.js',
 	'/img/feather-sprite.svg',
