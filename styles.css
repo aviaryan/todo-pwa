@@ -133,7 +133,7 @@ header {
 	bottom: 0;
 	border: 1px solid #bbb;
     width: calc(100% - 2rem);
-	max-width: 800px;
+	max-width: calc(800px - 2rem);
 	display: flex;
 	padding: 0.5rem 1rem;
 }
