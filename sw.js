@@ -28,7 +28,17 @@ self.addEventListener('install', function (event) {
 self.addEventListener('fetch', function (event) {
 	event.respondWith(
 		caches.match(event.request).then(function (response) {
-			// Cache hit - return response
+			// handle backend requests in network first, cache second order
+			if (event.request.url.startsWith(SERVER_URL)) {
+				return fetch(event.request).then(function (networkResponse) {
+					caches.open(CACHE_NAME).then(function (cache) {
+						cache.put(event.request, networkResponse)
+					})
+					return networkResponse.clone();
+				}).catch(function() {
+					return response
+				})
+			}
 			if (response) {
 				return response;
 			}
