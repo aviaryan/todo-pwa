@@ -16,7 +16,9 @@ These resources will help if you learn more about this app.
 
 * [Babel Standalone](https://babeljs.io/docs/en/next/babel-standalone.html) - Used to run ES6/JSX code in the browser.
 * [PWA Introduction](https://developers.google.com/web/fundamentals/primers/service-workers/) - A Google Developers getting started on PWAs.
+* [Web App Manifest](https://developers.google.com/web/fundamentals/web-app-manifest/) - Introduction to web app manifest.
 * [Add to Home Screen](https://developers.google.com/web/fundamentals/app-install-banners/#criteria) - Everything about the Add to Home Screen PWA feature along with its criteria.
+* [Background Sync](https://developers.google.com/web/updates/2015/12/background-sync) - A very small, straight-forward article on background sync.
 * [IDB](https://github.com/jakearchibald/idb) and [IDB Keyval](https://github.com/jakearchibald/idb-keyval) - Promise based interface to interact with IDB.
 * [Push Notifications](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications) - A good guide to have a strong understanding on push notifications. Also, see this [codelab](https://developers.google.com/web/fundamentals/codelabs/push-notifications/).
 
