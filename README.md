@@ -6,6 +6,12 @@ A To-Do app that is mobile optimized. It is deployed on Netlify at http://todo-p
 
 The todo app without any mobile web optimizations is at https://v.gd/mwa_starter_live and its source code is at https://v.gd/mwa_starter.
 
+## Icons
+
+Most of the icons are from [feather icons](https://feathericons.com).
+
+The logo of the app is from [Flaticon](https://v.gd/mwa_logo).
+
 ## Resources
 
 These resources will help if you learn more about this app.
