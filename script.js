@@ -61,7 +61,17 @@ class Content extends React.Component {
 	}
 
 	addTodo(text) {
-		this.postTodos([...this.state.todos, { title: text, completed: false, id: this.state.todos.length + 1 }])
+		// this.postTodos([...this.state.todos, { title: text, completed: false, id: this.state.todos.length + 1 }])
+		this.syncTodos([...this.state.todos, { title: text, completed: false, id: this.state.todos.length + 1 }])
+	}
+
+	syncTodos(todos){
+		navigator.serviceWorker.ready.then(function (swRegistration) {
+			// storing logic
+			return idbKeyval.set('todos', todos).then(() => {
+				return swRegistration.sync.register('myFirstSync');
+			})
+		});
 	}
 
 	postTodos(todos){
@@ -84,7 +94,8 @@ class Content extends React.Component {
 			}
 			return todo
 		})
-		this.postTodos(todos)
+		// this.postTodos(todos)
+		this.syncTodos(todos)
 	}
 
 	render() {
